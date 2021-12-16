@@ -3,6 +3,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.Duration;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -14,33 +15,35 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 class AppTest {
 	public static WebDriver driver;
 	
 	@BeforeAll
 	public static void initialize() {
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Youssef\\Documents\\TP Selenium\\chromedriver.exe");
+		WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 	}
-	public boolean assertBooleanValue(boolean value) {
-		assertEquals(value, true);
-		return value;
-	}
+	
+	@DisplayName("BackBone.js Test")
 	@Test
 	void test() throws InterruptedException {
         driver.get("http://todomvc.com");
-        driver.findElement(By.partialLinkText("Vue.js")).click();
+        driver.findElement(By.partialLinkText("Backbone.js")).click();
         addTodoItem("Meet a Friend");
         addTodoItem("Buy Meat");
         addTodoItem("Clean the Car");
         removeToDoItem(1);
-        validateExpectedItemsLeft(2);
-        
+        validateExpectedItemsLeft(2); 
 	}
+	
+	
+	@DisplayName("Parameterized tests")
 	@ParameterizedTest
 	@ValueSource(strings = {
-	"Backbone.js", 
+	"Vue.js", 
 	"AngularJS",
 	"Ember.js",
 	"React"
